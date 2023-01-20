@@ -11,11 +11,9 @@
         </div>
         <div class="mb-3">
             <label for="gender">성별</label>
-            <select name="gender" id="gender" class="form-control">
-                <option value="{{ form.gender.value|default_if_none:'' }}">없음</option>
-                <option value="{{ form.gender.value|default_if_none:'' }}">남</option>
-                <option value="{{ form.gender.value|default_if_none:'' }}">여</option>
-            </select>
+            <p class="form-control">{{ form.gender }}</p>
+            <!--{{ form.gender }} value가 아닌 form.gender까지만! 알아서 매칭되는것을 값으로 넣어줌-->
+            <!--디자인은 어떻하지?-->
         </div>
         <div class="mb-3">
             <label for="birthday">생년월일</label>
