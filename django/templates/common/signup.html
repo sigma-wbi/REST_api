@@ -10,17 +10,17 @@
                    value="{{ form.username.value|default_if_none:'' }}">
         </div>
         <div class="mb-3">
-            <label for="sex">성별</label>
-            <select name="sex" id="sex" class="form-control">
-                <option value="{{ form.sex.value|default_if_none:'' }}">없음</option>
-                <option value="{{ form.sex.value|default_if_none:'' }}">남</option>
-                <option value="{{ form.sex.value|default_if_none:'' }}">여</option>
+            <label for="gender">성별</label>
+            <select name="gender" id="gender" class="form-control">
+                <option value="{{ form.gender.value|default_if_none:'' }}">없음</option>
+                <option value="{{ form.gender.value|default_if_none:'' }}">남</option>
+                <option value="{{ form.gender.value|default_if_none:'' }}">여</option>
             </select>
         </div>
         <div class="mb-3">
-            <label for="birth">생년월일</label>
-            <input type="date" class="form-control" name="birth" id="birth"
-                   value="{{ form.birth.value|default_if_none:'' }}">
+            <label for="birthday">생년월일</label>
+            <input type="date" class="form-control" name="birthday" id="birthday"
+                   value="{{ form.birthday.value|default_if_none:'' }}">
         </div>
         <div class="mb-3">
             <label for="password1">비밀번호</label>
@@ -32,9 +32,14 @@
                    value="{{ form.password2.value|default_if_none:'' }}" placeholder='비밀번호 확인'>
         </div>
         <div class="mb-3">
-            <label for="email">연락처</label>
+            <label for="email">E-mail</label>
             <input type="text" class="form-control" name="email" id="email"
                    value="{{ form.email.value|default_if_none:'' }}" placeholder='email adress'>
+        </div>
+        <div class="mb-3">
+            <label for="phone">Phone Number</label>
+            <input type="text" class="form-control" name="phone" id="phone"
+                   value="{{ form.phone.value|default_if_none:'' }}" placeholder='phone number'>
         </div>
         <button type="submit" class="btn btn-primary">생성하기</button>
     </form>
