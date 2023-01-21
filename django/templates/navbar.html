@@ -1,5 +1,5 @@
 <!-- 네비게이션바 -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-light border-bottom" style="background:linear-gradient(to bottom, rgb(111, 111, 251), rgb(192, 232, 245));">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'user:index' %}">User</a>
         <button class="navbar-toggler" type="button"
@@ -17,7 +17,12 @@
                 </li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}
+                    <li>
                     <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
+                    </li>
+                    <li>
+                    <a class="nav-link" href="{% url 'common:delete' %}">{{ user.username }} (회원탈퇴)</a>
+                    </li>
                     {% else %}
                     <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
                     {% endif %}

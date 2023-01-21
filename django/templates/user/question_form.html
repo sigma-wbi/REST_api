@@ -28,7 +28,7 @@
             <textarea class="form-control" name="content"
                       id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea> <!--default_if_none:''는 기존입력값을 유지하는것-->
         </div>
-        <button type="submit" class="btn btn-primary">저장하기</button>
+        <button type="submit" class="btn btn-primary" style="float: right;">저장하기</button>
     </form>
 </div>
 {% endblock %}
