@@ -20,14 +20,14 @@ def index(request):
     paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
     context = {"question_list": page_obj}
-    return render(request, "user/question_list.html", context)
+    return render(request, "board/question_list.html", context)
 
 
 @csrf_exempt
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     context = {"question": question}
-    return render(request, "user/question_detail.html", context)
+    return render(request, "board/question_detail.html", context)
 
 
 @login_required(login_url="common:login")  # 로그아웃인 상태에서 작성시 로그인화면으로
@@ -49,12 +49,12 @@ def answer_create(request, question_id):
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
-            return redirect("user:detail", question_id=question.id)
+            return redirect("board:detail", question_id=question.id)
     else:
         form = AnswerForm()  # 로그아웃시에 답변을 등록하더라도 오류가 안생기고 상세화면으로 돌아감 아래는 오류발생시키는 코드
         # return HttpResponseNotAllowed('Only POST is possible.')
     context = {"question": question, "form": form}
-    return render(request, "user/question_detail.html", context)
+    return render(request, "board/question_detail.html", context)
 
 
 @login_required(login_url="common:login")  # 로그아웃인 상태에서 작성시 로그인화면으로
@@ -66,11 +66,11 @@ def question_create(request):
             question.author = request.user  # author 속성에 로그인 계정 저장
             question.create_date = timezone.now()  # 실제 저장을 위해 작성일시를 설정한다.
             question.save()  # 데이터를 실제로 저장한다.
-            return redirect("user:index")
+            return redirect("board:index")
     else:
         form = QuestionForm()
     context = {"form": form}
-    return render(request, "user/question_form.html", context)
+    return render(request, "board/question_form.html", context)
 
 from django.contrib import messages
 @login_required(login_url='common:login')
@@ -78,45 +78,45 @@ def question_modify(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.user != question.author:
         messages.error(request, '수정권한이 없습니다')
-        return redirect('user:detail', question_id=question.id)
+        return redirect('board:detail', question_id=question.id)
     if request.method == "POST":
         form = QuestionForm(request.POST, instance=question)
         if form.is_valid():
             question = form.save(commit=False)
             question.modify_date = timezone.now()  # 수정일시 저장
             question.save()
-            return redirect('user:detail', question_id=question.id)
+            return redirect('board:detail', question_id=question.id)
     else:
         form = QuestionForm(instance=question)
     context = {'form': form}
-    return render(request, 'user/question_form.html', context)
+    return render(request, 'board/question_form.html', context)
 
 @login_required(login_url='common:login')
 def question_delete(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.user != question.author:
         messages.error(request, '삭제권한이 없습니다')
-        return redirect('user:detail', question_id=question.id)
+        return redirect('board:detail', question_id=question.id)
     question.delete()
-    return redirect('user:index')
+    return redirect('board:index')
 
 @login_required(login_url='common:login')
 def answer_modify(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     if request.user != answer.author:
         messages.error(request, '수정권한이 없습니다')
-        return redirect('user:detail', question_id=answer.question.id)
+        return redirect('board:detail', question_id=answer.question.id)
     if request.method == "POST":
         form = AnswerForm(request.POST, instance=answer)
         if form.is_valid():
             answer = form.save(commit=False)
             answer.modify_date = timezone.now()
             answer.save()
-            return redirect('user:detail', question_id=answer.question.id)
+            return redirect('board:detail', question_id=answer.question.id)
     else:
         form = AnswerForm(instance=answer)
     context = {'answer': answer, 'form': form}
-    return render(request, 'user/answer_form.html', context)
+    return render(request, 'board/answer_form.html', context)
 
 @login_required(login_url='common:login')
 def answer_delete(request, answer_id):
@@ -125,4 +125,4 @@ def answer_delete(request, answer_id):
         messages.error(request, '삭제권한이 없습니다')
     else:
         answer.delete()
-    return redirect('user:detail', question_id=answer.question.id)
+    return redirect('board:detail', question_id=answer.question.id)

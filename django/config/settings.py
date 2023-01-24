@@ -54,7 +54,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
-    "user.apps.UserConfig",  # user.apps의 UserConfig 함수사용
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -64,7 +63,7 @@ INSTALLED_APPS = [
     "rest_framework",  # 앱에 등록합니다.
     "common.apps.CommonConfig",
     "api.apps.ApiConfig",
-    # "common.models.User",
+    "board.apps.BoardConfig",
 ]
 
 # DRF setting - 예시입니다.

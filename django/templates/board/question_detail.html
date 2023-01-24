@@ -28,10 +28,10 @@
                     </div>
                     <div class="my-3">
                         {% if request.user == question.author %}
-                        <a href="{% url 'user:question_modify' question.id  %}" 
+                        <a href="{% url 'board:question_modify' question.id  %}" 
                             class="btn btn-sm btn-outline-secondary">수정</a>
                         <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
-                            data-uri="{% url 'user:question_delete' question.id  %}">삭제</a>
+                            data-uri="{% url 'board:question_delete' question.id  %}">삭제</a>
                         {% endif %}
                     </div>
                 </div>
@@ -57,10 +57,10 @@
                     </div>
                 <div class="my-3">
                     {% if request.user == answer.author %}
-                    <a href="{% url 'user:answer_modify' answer.id  %}" 
+                    <a href="{% url 'board:answer_modify' answer.id  %}" 
                         class="btn btn-sm btn-outline-secondary">수정</a>
                     <a href="#" class="delete btn btn-sm btn-outline-secondary "
-                        data-uri="{% url 'user:answer_delete' answer.id  %}">삭제</a>
+                        data-uri="{% url 'board:answer_delete' answer.id  %}">삭제</a>
                     {% endif %}
                 </div>
                 </div>
@@ -68,7 +68,7 @@
         {% endfor %}
         <!-- 답변 등록 -->
         <form
-            action="{% url 'user:answer_create' question.id %}"
+            action="{% url 'board:answer_create' question.id %}"
             method="post"
             class="my-3">
             {% csrf_token %}

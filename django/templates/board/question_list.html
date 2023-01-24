@@ -21,7 +21,7 @@
                             {{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}
                         </td>
                         <td class="text-start">
-                            <a href="{% url 'user:detail' question.id %}">{{ question.subject }}</a>
+                            <a href="{% url 'board:detail' question.id %}">{{ question.subject }}</a>
                             {% if question.answer_set.count > 0 %}
                             <span class="text-danger small mx-2">{{ question.answer_set.count }}</span>
                             {% endif %}
@@ -75,6 +75,6 @@
             {% endif %}
         </ul>
         <!-- 페이징처리 끝 -->
-        <a href="{% url 'user:question_create' %}" class="btn btn-primary" style="float: right;">질문 등록하기</a>
+        <a href="{% url 'board:question_create' %}" class="btn btn-primary" style="float: right;">질문 등록하기</a>
     </div>
 {% endblock %}
