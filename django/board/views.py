@@ -1,14 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
-# from django.http import HttpResponse
-# Create your views here.
 from .models import Question, Answer
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .forms import QuestionForm, AnswerForm
-
-# from django.http import HttpResponseNotAllowed
-from django.core.paginator import Paginator  # 페이징 라이브러리
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import (
     login_required,
 )  # @login_required 애너테이션이 붙은 함수는 로그인이 필요한 함수를 의미
@@ -32,14 +27,6 @@ def detail(request, question_id):
 
 @login_required(login_url="common:login")  # 로그아웃인 상태에서 작성시 로그인화면으로
 def answer_create(request, question_id):
-    # question = get_object_or_404(Question, pk=question_id)
-    # question.answer_set.create(content=request.POST.get('content'), create_date=timezone.now())
-    # return redirect('user:detail', question_id=question.id)
-    # -----------------위나 아래와 같은 방식으로도 사용 가능----------------
-    # question = get_object_or_404(Question, pk=question_id)
-    # answer = Answer(question=question, content=request.POST.get('content'), create_date=timezone.now())
-    # answer.save()
-    # return redirect('user:detail', question_id=question.id)
     question = get_object_or_404(Question, pk=question_id)
     if request.method == "POST":
         form = AnswerForm(request.POST)
@@ -52,7 +39,6 @@ def answer_create(request, question_id):
             return redirect("board:detail", question_id=question.id)
     else:
         form = AnswerForm()  # 로그아웃시에 답변을 등록하더라도 오류가 안생기고 상세화면으로 돌아감 아래는 오류발생시키는 코드
-        # return HttpResponseNotAllowed('Only POST is possible.')
     context = {"question": question, "form": form}
     return render(request, "board/question_detail.html", context)
 

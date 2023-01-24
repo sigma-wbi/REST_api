@@ -1,13 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser  # AbstractUser 불러오기
-from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 
+class User(AbstractUser):
 
-class User(AbstractUser):  # 왜 상속이 안되지?
-
-    # sex = models.Choices(max_length=30,cho blank=False)
-    # phone = models.CharField(max_length=30, default="sss", blank=False)
-    # birth = models.DateField(null=True, blank=False) # 확인
     gender = models.CharField(
         max_length=1,
         choices=[("M", "Male"), ("F", "Female")],
