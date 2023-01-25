@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",  # 앱에 등록합니다.
     "common.apps.CommonConfig",
-    "api.apps.ApiConfig",
     "board.apps.BoardConfig",
 ]
 
