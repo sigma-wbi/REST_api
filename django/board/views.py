@@ -1,114 +1,46 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from .models import Question, Answer
-from django.utils import timezone
-from django.views.decorators.csrf import csrf_exempt
-from .forms import QuestionForm, AnswerForm
-from django.core.paginator import Paginator
-from django.contrib.auth.decorators import (
-    login_required,
-)  # @login_required 애너테이션이 붙은 함수는 로그인이 필요한 함수를 의미
+from .serializers import QuestionsSerializer, AnswersSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 
 
-def index(request):
-    page = request.GET.get("page", "1")  # 페이지
-    question_list = Question.objects.order_by("-create_date")
-    paginator = Paginator(question_list, 10)  # 페이지당 10개씩 보여주기
-    page_obj = paginator.get_page(page)
-    context = {"question_list": page_obj}
-    return render(request, "board/question_list.html", context)
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'questions': reverse('questions', request=request, format=format),
+        'answers': reverse('answers', request=request, format=format),
+        # 'question': reverse('question', request=request, format=format),
+    })
 
 
-@csrf_exempt
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    context = {"question": question}
-    return render(request, "board/question_detail.html", context)
+class QuestionsView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Question.objects.all().order_by('-create_date')    
+    serializer_class = QuestionsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
-@login_required(login_url="common:login")  # 로그아웃인 상태에서 작성시 로그인화면으로
-def answer_create(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    if request.method == "POST":
-        form = AnswerForm(request.POST)
-        if form.is_valid():
-            answer = form.save(commit=False)
-            answer.author = request.user  # author 속성에 로그인 계정 저장
-            answer.create_date = timezone.now()
-            answer.question = question
-            answer.save()
-            return redirect("board:detail", question_id=question.id)
-    else:
-        form = AnswerForm()  # 로그아웃시에 답변을 등록하더라도 오류가 안생기고 상세화면으로 돌아감 아래는 오류발생시키는 코드
-    context = {"question": question, "form": form}
-    return render(request, "board/question_detail.html", context)
+class QuestionDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Question.objects.all()
+    serializer_class = QuestionsSerializer
 
 
-@login_required(login_url="common:login")  # 로그아웃인 상태에서 작성시 로그인화면으로
-def question_create(request):
-    if request.method == "POST":
-        form = QuestionForm(request.POST)
-        if form.is_valid():  # 폼이 유효하다면
-            question = form.save(commit=False)  # 임시 저장하여 question 객체를 리턴받는다.
-            question.author = request.user  # author 속성에 로그인 계정 저장
-            question.create_date = timezone.now()  # 실제 저장을 위해 작성일시를 설정한다.
-            question.save()  # 데이터를 실제로 저장한다.
-            return redirect("board:index")
-    else:
-        form = QuestionForm()
-    context = {"form": form}
-    return render(request, "board/question_form.html", context)
+class AnswersView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Answer.objects.all().order_by('-create_date')    
+    serializer_class = AnswersSerializer
 
-from django.contrib import messages
-@login_required(login_url='common:login')
-def question_modify(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    if request.user != question.author:
-        messages.error(request, '수정권한이 없습니다')
-        return redirect('board:detail', question_id=question.id)
-    if request.method == "POST":
-        form = QuestionForm(request.POST, instance=question)
-        if form.is_valid():
-            question = form.save(commit=False)
-            question.modify_date = timezone.now()  # 수정일시 저장
-            question.save()
-            return redirect('board:detail', question_id=question.id)
-    else:
-        form = QuestionForm(instance=question)
-    context = {'form': form}
-    return render(request, 'board/question_form.html', context)
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
-@login_required(login_url='common:login')
-def question_delete(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    if request.user != question.author:
-        messages.error(request, '삭제권한이 없습니다')
-        return redirect('board:detail', question_id=question.id)
-    question.delete()
-    return redirect('board:index')
 
-@login_required(login_url='common:login')
-def answer_modify(request, answer_id):
-    answer = get_object_or_404(Answer, pk=answer_id)
-    if request.user != answer.author:
-        messages.error(request, '수정권한이 없습니다')
-        return redirect('board:detail', question_id=answer.question.id)
-    if request.method == "POST":
-        form = AnswerForm(request.POST, instance=answer)
-        if form.is_valid():
-            answer = form.save(commit=False)
-            answer.modify_date = timezone.now()
-            answer.save()
-            return redirect('board:detail', question_id=answer.question.id)
-    else:
-        form = AnswerForm(instance=answer)
-    context = {'answer': answer, 'form': form}
-    return render(request, 'board/answer_form.html', context)
-
-@login_required(login_url='common:login')
-def answer_delete(request, answer_id):
-    answer = get_object_or_404(Answer, pk=answer_id)
-    if request.user != answer.author:
-        messages.error(request, '삭제권한이 없습니다')
-    else:
-        answer.delete()
-    return redirect('board:detail', question_id=answer.question.id)
+class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Answer.objects.all()
+    serializer_class = AnswersSerializer
