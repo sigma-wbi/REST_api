@@ -29,7 +29,7 @@ class SignupView(generics.CreateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = SignupSerializer
         
-        
+     
 class WithdrawView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = get_user_model().objects.all()
