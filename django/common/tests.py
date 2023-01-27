@@ -8,17 +8,30 @@ from rest_framework_simplejwt.tokens import RefreshToken
 class Testuser(APITestCase):
     
     def setUp(self): # 더미데이터 생성 함수명 setUp 지켜야함
-        self.user = User(
-            id = 1,
-            username = 'testuser',
+        self.user = User.objects.create(
+            id       = 1,
+            username = "testuser",
             password = make_password("kkkk1234"),
-            email = "ayaan@naver.com",
-            gender = "M",
-            birthday = "2023-01-26",
-            phone = "010-1111-1111"
-        )
+            email    = "aaaaa@naver.com",
+            gender   = "M",
+            birthday = "2023-01-25",
+            phone    = "010-1111-1111"
+            )
+        # 타 유저가 게시물 수정가능함
+        self.user1 = User.objects.create(
+            id       = 2,
+            username = "testuser2",
+            password = make_password("kkkk1234"),
+            email    = "bbbbb@naver.com",
+            gender   = "F",
+            birthday = "2023-01-25",
+            phone    = "010-2222-2222"
+            )   
         self.url = "/api/common/signup/"
         self.withdraw_url = f"/api/common/withdraw/{self.user.id}/" # 마지막에 /주의 301 error
+        self.token_url = "/api/common/token/"
+        self.token_refresh_url = "/api/common/token/refresh/"
+        self.token_verify_ulr = "/api/common/token/verify/"
         self.user.save()
         self.assertIsNotNone(self.user, msg="유저가 생성되지 않았습니다.")
 
@@ -70,9 +83,43 @@ class Testuser(APITestCase):
 
         self.response = self.client.delete(self.withdraw_url, format='json')
         self.assertEqual(self.response.status_code, status.HTTP_204_NO_CONTENT, msg="회원탈퇴 테스트가 정상 진행되지 않았습니다.")
+
+    def test_withdaw_noself(self): # 회원 본인 아닌경우 탈퇴
+        self.refresh = RefreshToken.for_user(self.user1) 
+        self.client.credentials(HTTP_AUTHORIZATION = f'Bearer {self.refresh.access_token}')
+
+        self.response = self.client.delete(self.withdraw_url, format='json')
+        self.assertEqual(self.response.status_code, status.HTTP_403_FORBIDDEN, msg="회원탈퇴는 권한있는 유저만 가능해야합니다.")
     # #--------결과값 확인 메서드-------------------
     # # 매 테스트 메소드 실행 후 동작
     # def tearDown(self):
     #     print(' 결과 값 : ',self.user.id)
 
 # --------------토큰부분 미구현-----------------
+
+    def test_token(self): # 토큰확인하기
+        self.user_token_info = {
+            "username" : 'testuser', 
+            "password" : "kkkk1234",
+        }
+
+        self.response = self.client.post(self.token_url, data=self.user_token_info, format='json')
+        self.assertEqual(self.response.status_code, status.HTTP_200_OK, msg="토큰 테스트가 정상작동하지 않습니다.")
+
+    def test_token_refresh(self): # 토큰 refresh 확인하기
+        self.refresh = RefreshToken.for_user(self.user)
+        self.user_token_info = {
+            "refresh" : f"{self.refresh}", 
+        }
+
+        self.response = self.client.post(self.token_refresh_url, data=self.user_token_info, format='json')
+        self.assertEqual(self.response.status_code, status.HTTP_200_OK, msg="토큰 refresh 테스트가 정상작동하지 않습니다.")
+
+    def test_token_verify(self): # 토큰 유효성검사 확인하기
+        self.refresh = RefreshToken.for_user(self.user)
+        user_token_info = {
+                "token":f"{self.refresh.access_token}"
+        }
+
+        self.response = self.client.post(self.token_verify_ulr, data=user_token_info ,format='json')
+        self.assertEqual(self.response.status_code, status.HTTP_200_OK, msg="토큰 verify 테스트가 정상작동하지 않습니다.")
