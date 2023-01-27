@@ -22,7 +22,6 @@ class SignupSerializer(serializers.ModelSerializer):
         return attrs
     
     def create(self, validated_data):
-        print(validated_data)
         user = get_user_model()(
             username=validated_data['username'],
             # password=validated_data['password1'], 이렇게 하면 raw_data로 들어감

@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer, SignupSerializer
+from .permissions import IsUserOrStaff
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.decorators import api_view
@@ -15,7 +16,6 @@ def api_root(request, format=None):
         'token': reverse('token_obtain_pair', request=request, format=format),
         'token/refresh': reverse('token_refresh', request=request, format=format),
         'token/verify': reverse('token_verify', request=request, format=format),
-        # 'withdraw': reverse('withdraw', request=request, format=format),
     })
 
 
@@ -31,6 +31,6 @@ class SignupView(generics.CreateAPIView):
         
         
 class WithdrawView(generics.DestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsUserOrStaff]
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
