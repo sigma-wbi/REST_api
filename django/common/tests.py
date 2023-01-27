@@ -60,6 +60,7 @@ class Testuser(APITestCase):
         }
         self.response = self.client.post(self.url, data = self.user_info, format='json')
         self.assertEqual(self.response.status_code, status.HTTP_400_BAD_REQUEST, msg="중복체크가 제대로 되지않습니다.")
+        self.assertEqual(self.response.json()['username'], ['A user with that username already exists.'])
 
     def test_signup_password_check(self): #비밀번호 불일치
 
@@ -74,6 +75,8 @@ class Testuser(APITestCase):
         }
         self.response = self.client.post(self.url, data = self.user_info, format='json')
         self.assertEqual(self.response.status_code, status.HTTP_400_BAD_REQUEST, msg="비밀번호 일치 테스트가 정상작동하지 않습니다.")
+        self.assertEqual(self.response.json()['password'], ['password are not match!'])
+
 
     def test_withdaw(self): # 회원탈퇴
         self.refresh = RefreshToken.for_user(self.user) # 토큰 refresh, access token 해킹방지용
@@ -105,6 +108,8 @@ class Testuser(APITestCase):
 
         self.response = self.client.post(self.token_url, data=self.user_token_info, format='json')
         self.assertEqual(self.response.status_code, status.HTTP_200_OK, msg="토큰 테스트가 정상작동하지 않습니다.")
+        self.assertIsNotNone(self.response.json()['access'], msg="access 토큰이 존재하지 않습니다.")
+        self.assertIsNotNone(self.response.json()['refresh'], msg="refresh 토큰이 존재하지 않습니다.")
 
     def test_token_refresh(self): # 토큰 refresh 확인하기
         self.refresh = RefreshToken.for_user(self.user)
@@ -114,6 +119,7 @@ class Testuser(APITestCase):
 
         self.response = self.client.post(self.token_refresh_url, data=self.user_token_info, format='json')
         self.assertEqual(self.response.status_code, status.HTTP_200_OK, msg="토큰 refresh 테스트가 정상작동하지 않습니다.")
+        self.assertIsNotNone(self.response.json()['access'], msg="access 토큰을 가져오는데 실패하였습니다. refresh token을 확인해주세요")
 
     def test_token_verify(self): # 토큰 유효성검사 확인하기
         self.refresh = RefreshToken.for_user(self.user)

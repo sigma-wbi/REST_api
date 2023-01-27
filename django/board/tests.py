@@ -84,6 +84,7 @@ class Testboard(APITestCase):
 
         self.response = self.client.post(self.question_url, data, format='json')
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED, msg="글 작성 실패")
+        self.assertEqual(self.response.json()['subject'], data['subject'])
     
     def test_board_create(self): # 비 로그인시 글작성
 
@@ -94,6 +95,7 @@ class Testboard(APITestCase):
 
         self.response = self.client.post(self.question_url, data, format='json')
         self.assertEqual(self.response.status_code, status.HTTP_403_FORBIDDEN, msg="비로그인시 게시판 작성되면 안됨")
+        self.assertNotEqual(self.response.json(), data)
 
 
 # --------------put, delete는 상세페이지---------------------
