@@ -38,8 +38,8 @@ class Testuser(APITestCase):
     def test_signup_dupli_id_check(self): #중복아이디 체크
         self.user_info = {
             "username" : 'testuser', # 처음 생성된 아이디와 중복
-            "password" : "kkkk1234",
-            "password_check" : "kkkk1234",
+            "password1" : "kkkk1234",
+            "password2" : "kkkk1234",
             "email" : "ayaan@naver.com",
             "gender" : "M",
             "birthday" : "2023-01-26",
@@ -52,8 +52,8 @@ class Testuser(APITestCase):
 
         self.user_info = {
             "username" : 'testuser1', 
-            "password" : "kkkk1234",
-            "password_check" : "aaaa1234", # 비밀번호 다름
+            "password1" : "kkkk1234",
+            "password2" : "aaaa1234", # 비밀번호 다름
             "email" : "ayaan@naver.com",
             "gender" : "M",
             "birthday" : "2023-01-26",
