@@ -1,5 +1,7 @@
 from .models import Question, Answer
 from .serializers import QuestionsSerializer, AnswersSerializer
+from .permissions import IsAuthorOrReadOnly
+from django.utils import timezone
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.decorators import api_view
@@ -12,7 +14,6 @@ def api_root(request, format=None):
     return Response({
         'questions': reverse('questions', request=request, format=format),
         'answers': reverse('answers', request=request, format=format),
-        # 'question': reverse('question', request=request, format=format),
     })
 
 
@@ -26,9 +27,12 @@ class QuestionsView(generics.ListCreateAPIView):
 
 
 class QuestionDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
     queryset = Question.objects.all()
     serializer_class = QuestionsSerializer
+
+    def perform_update(self, serializer):
+        serializer.save(modify_date=timezone.now())
 
 
 class AnswersView(generics.ListCreateAPIView):
@@ -41,6 +45,9 @@ class AnswersView(generics.ListCreateAPIView):
 
 
 class AnswerDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
     queryset = Answer.objects.all()
     serializer_class = AnswersSerializer
+
+    def perform_update(self, serializer):
+        serializer.save(modify_date=timezone.now())
