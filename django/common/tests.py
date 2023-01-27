@@ -75,4 +75,4 @@ class Testuser(APITestCase):
     # def tearDown(self):
     #     print(' 결과 값 : ',self.user.id)
 
-# --------------로그인부분 미구현-----------------
+# --------------토큰부분 미구현-----------------
