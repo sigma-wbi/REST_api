@@ -7,8 +7,6 @@ from common.models import User
 from board.models import Question,Answer
 from rest_framework.decorators import api_view
 from rest_framework.reverse import reverse
-import re
-from dateutil.parser import parse
 
 @api_view(['GET'])
 def api_root(request, format=None):
