@@ -21,8 +21,8 @@ class SignupSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password': 'password are not match!'})
         return attrs
     
-    def create(self, validated_data):
 
+    def create(self, validated_data):
         user = get_user_model()(
             username=validated_data['username'],
             # password=validated_data['password1'], 이렇게 하면 raw_data로 들어감

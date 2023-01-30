@@ -7,7 +7,7 @@ urlpatterns = format_suffix_patterns([
     path('', views.api_root),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('questions/', views.QuestionsView.as_view(), name='questions'),
-    path('question/<int:pk>/', views.QuestionDetailView.as_view(), name='question'),
+    path('questions/<int:pk>/', views.QuestionDetailView.as_view(), name='question'),
     path('answers/', views.AnswersView.as_view(), name='answers'),
-    path('answer/<int:pk>/', views.AnswerDetailView.as_view(), name='answer'),
+    path('answers/<int:pk>/', views.AnswerDetailView.as_view(), name='answer'),
 ])

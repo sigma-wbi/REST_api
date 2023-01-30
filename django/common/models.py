@@ -10,4 +10,4 @@ class User(AbstractUser):
         name="gender",
     )
     birthday = models.DateField(blank=True, null=True, name="birthday")
-    phone = models.CharField(max_length=11, blank=True, name="phone")
+    phone = models.CharField(max_length=20, blank=True, name="phone")
