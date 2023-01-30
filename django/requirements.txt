@@ -7,3 +7,4 @@ Markdown==3.4.1
 PyMySQL==1.0.2
 cryptography==39.0.0
 djangorestframework-simplejwt==5.2.2
+JSON-log-formatter==0.5.1
