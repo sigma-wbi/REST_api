@@ -195,6 +195,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': BASE_DIR/'logs/log.json',
+            'encoding': 'utf8',
             'formatter': 'json',
         },
     },
