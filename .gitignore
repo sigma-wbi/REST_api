@@ -4,3 +4,5 @@ __pycache__/
 !**/migrations/__init__.py
 **/logs/**
 !**/logs/.gitkeep
+!**/logs/decrypt_log.py
+!**/logs/encrypt_log.py
