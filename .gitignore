@@ -6,3 +6,4 @@ __pycache__/
 !**/logs/.gitkeep
 !**/logs/decrypt_log.py
 !**/logs/encrypt_log.py
+**/static_root/**
