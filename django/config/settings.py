@@ -44,11 +44,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",  # 앱에 등록합니다.
-    "rest_framework_simplejwt",
+    'rest_framework_simplejwt',
     "common.apps.CommonConfig",
     "board.apps.BoardConfig",
-    "django_seed",
-    "log.apps.LogConfig",
 ]
 
 # DRF setting - 예시입니다.
@@ -126,8 +124,16 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
+# static dir create
+# ROOT_DIR = os.path.dirname(BASE_DIR)
 STATIC_URL = "static/"
+# STATIC_DIR = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [
+#     STATIC_DIR,
+# ]
+# STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -197,7 +203,6 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': BASE_DIR/'logs/log.json',
-            'encoding': 'utf8',
             'formatter': 'json',
         },
     },
