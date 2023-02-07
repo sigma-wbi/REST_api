@@ -4,6 +4,12 @@ from logging import LogRecord
 from time import localtime, strftime
 import hashlib
 
+import uuid
+import os
+import environ
+from cryptography.fernet import Fernet
+from pathlib import Path
+
 
 class CustomisedJSONFormatter(json_log_formatter.JSONFormatter):
 
@@ -32,8 +38,32 @@ class CustomisedJSONFormatter(json_log_formatter.JSONFormatter):
         data.pop('password2', None)
         extra.update(data)
 
+        # For save encypted log data to DB
+        self.save_encrypt_log_db(time=record.created, data=extra)
+
         return extra
-        
+
+    def save_encrypt_log_db(self, time: float, data: dict):
+        # import after start apps
+        from log.models import Log
+
+        BASE_DIR = Path(__file__).resolve().parent.parent
+        env = environ.Env(DEBUG=(bool, True))
+        environ.Env.read_env(env_file=os.path.join(BASE_DIR, ".env"))
+        key = env('FERNET_KEY')
+        fernet = Fernet(key)
+        encrypted = fernet.encrypt(data.__str__().encode(encoding='utf8')).decode(encoding='utf8')
+
+        model = Log()
+        model.recordId = uuid.uuid4().int
+        model.time = time
+        model.data = encrypted
+        model.save()
+        # How to decrypt
+        # fernet = Fernet(key)
+        # decrypted = fernet.decrypt(encrypted).decode(encoding='utf8')
+
+    # modify ensure_ascii=False
     def to_json(self, record):
         """Converts record dict to a JSON string.
 

@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",  # 앱에 등록합니다.
-    'rest_framework_simplejwt',
+    "rest_framework_simplejwt",
     "common.apps.CommonConfig",
     "board.apps.BoardConfig",
-    'django_seed',
+    "django_seed",
+    "log.apps.LogConfig",
 ]
 
 # DRF setting - 예시입니다.
