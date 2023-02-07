@@ -9,3 +9,4 @@ cryptography==39.0.0
 djangorestframework-simplejwt==5.2.2
 JSON-log-formatter==0.5.1
 Faker==16.6.1
+django-seed==0.3.1
