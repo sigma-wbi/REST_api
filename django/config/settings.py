@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     "common.apps.CommonConfig",
     "board.apps.BoardConfig",
+    'django_seed',
 ]
 
 # DRF setting - 예시입니다.
