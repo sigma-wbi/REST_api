@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     "common.apps.CommonConfig",
     "board.apps.BoardConfig",
+    "django_seed",
+    "log.apps.LogConfig",
 ]
 
 # DRF setting - 예시입니다.
@@ -203,6 +205,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': BASE_DIR/'logs/log.json',
+            'encoding': 'utf8',
             'formatter': 'json',
         },
     },
