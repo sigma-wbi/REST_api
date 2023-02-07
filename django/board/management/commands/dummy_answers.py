@@ -5,6 +5,9 @@ from faker import Faker
 from board.models import Question, Answer
 from common.models import User
 
+#명령어 
+#python manage.py dummy_answers <--number 생성개수>
+
 class Command(BaseCommand):
 
     help = 'This command creates answers'

@@ -5,6 +5,9 @@ from common.models import User
 from random import *
 from faker import Faker
 
+#명령어 
+#python manage.py dummy_users <--number 생성개수>
+
 class Command(BaseCommand):
 
     help = 'This command creates users'

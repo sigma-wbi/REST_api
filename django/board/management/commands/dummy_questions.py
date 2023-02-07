@@ -1,10 +1,12 @@
 from django_seed import Seed
 from django.core.management.base import BaseCommand
-#from django.contrib.auth.models import User
 from random import *
 from faker import Faker
 from board.models import Question, Answer
 from common.models import User
+
+#명령어 
+#python manage.py dummy_questions <--number 생성개수>
 
 class Command(BaseCommand):
 
