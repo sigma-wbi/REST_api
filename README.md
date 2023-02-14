@@ -35,6 +35,7 @@ DRF(Django REST Framework)를 사용하여 REST API를 만들고 배포
 ![badge](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white)  
 ![badge](https://img.shields.io/badge/AmazonEC2-FF9900?style=flat-square&logo=AmazonEC2&logoColor=white)
 ![badge](https://img.shields.io/badge/AmazonRDS-527FFF?style=flat-square&logo=AmazonRDS&logoColor=white)
+![badge](https://img.shields.io/badge/AmazonS3-527FFF?style=flat-square&logo=AmazonS3&logoColor=white)
 ![badge](https://img.shields.io/badge/LetsEncrypt-003A70?style=flat-square&logo=LetsEncrypt&logoColor=white)
 
 ## Installation
