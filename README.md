@@ -37,6 +37,31 @@ DRF(Django REST Framework)를 사용하여 REST API를 만들고 배포
 ![badge](https://img.shields.io/badge/AmazonRDS-527FFF?style=flat-square&logo=AmazonRDS&logoColor=white)
 ![badge](https://img.shields.io/badge/LetsEncrypt-003A70?style=flat-square&logo=LetsEncrypt&logoColor=white)
 
+## Installation
+파이썬 버전 : 3.9.16
+데이터베이스 : MySQL
+1. 레포지토리 클론
+```python
+$ git clone https://github.com/cp2-2team/cp2_api.git
+```
+2. 데이터 베이스 생성
+```sql
+mysql> CREATE DATABASE <DB이름> character set utf8mb4 collate utf8mb4_general_ci;
+```
+3. .env 파일 DB정보 설정
+```python
+DB_NAME='DB이름'
+DB_USER='유저아이디'        #root
+DB_PASSWORD='비밀번호'
+```
+4. 패키지 다운로드
+```python
+$ pip install -r requirements.txt
+```
+
+## Examples
+API Document: https://cp2de.gitbook.io/rest_api-and-etl-pipeline/
+
 ## 추후 과제
 - APACHE AIRFLOW를 사용해 ETL 파이프라인 만들기
 - REACT로 프론트엔드를 만들고 API를 사용하여 웹페이지 만들기
