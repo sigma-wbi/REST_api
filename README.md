@@ -1,4 +1,4 @@
-# (가제목) DRF를 사용한 REST API
+# DRF를 사용한 REST API
 
 ## 배포
 REST API: http://cp2de.duckdns.org/api/common/  
@@ -62,7 +62,3 @@ $ pip install -r requirements.txt
 
 ## Examples
 API Document: https://cp2de.gitbook.io/rest_api-and-etl-pipeline/
-
-## 추후 과제
-- APACHE AIRFLOW를 사용해 ETL 파이프라인 만들기
-- REACT로 프론트엔드를 만들고 API를 사용하여 웹페이지 만들기
