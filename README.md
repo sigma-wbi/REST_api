@@ -1,5 +1,10 @@
 # DRF를 사용한 REST API
 
+## Team member
+* 김경동
+* 우병일
+* 엄성호
+
 ## 배포
 REST API: http://cp2de.duckdns.org/api/common/  
 API Document: https://cp2de.gitbook.io/rest_api-and-etl-pipeline/  
