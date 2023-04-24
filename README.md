@@ -66,5 +66,5 @@ $ pip install -r requirements.txt
 ```
 
 ## Explanation
-API Document: https://cp2de.gitbook.io/rest_api-and-etl-pipeline/
-report : 
+API Document: https://cp2de.gitbook.io/rest_api-and-etl-pipeline/ </br>
+report : https://github.com/sigma-wbi/cp2_api/tree/main/report
